@@ -1,6 +1,7 @@
 package com.transactionmanager.transaction.controller;
 
 import java.util.UUID;
+import java.util.function.Function;
 
 import javax.validation.Valid;
 
@@ -32,6 +33,7 @@ class TransactionController {
 
 	private final TransactionFinder transactionFinder;
 	private final TransactionCreator transactionCreator;
+	private static final Function<TransactionRequest, TransactionDto> mapper = createMapper();
 
 	TransactionController(TransactionFinder transactionFinder, TransactionCreator transactionCreator) {
 		this.transactionFinder = transactionFinder;
@@ -46,11 +48,12 @@ class TransactionController {
 				@ApiResponse(code = 201, message = "CREATED.", response = String.class),
 				@ApiResponse(code = 404, message = "NOT_FOUND.", response = ResponseError.class),
 				@ApiResponse(code = 400, message = "BAD_REQUEST.", response = ResponseError.class),
-				@ApiResponse(code = 500, message = "Internal Server Error", response = ResponseError.class) })
+				@ApiResponse(code = 500, message = "Internal Server Error", response = ResponseError.class) 
+		})
 	// @formatter:on
 	@ResponseStatus(HttpStatus.CREATED)
-	public ResponseEntity<String> createTransaction(@RequestBody @Valid TransactionDto transactionDto) {
-		final UUID transactionId = transactionCreator.createNewTransaction(transactionDto);
+	public ResponseEntity<String> createTransaction(@RequestBody @Valid TransactionRequest transactionRequest) {
+		final UUID transactionId = transactionCreator.createNewTransaction(mapper.apply(transactionRequest));
 		return ResponseEntity.status(HttpStatus.CREATED).body(String.format("/transactions/%s", transactionId));
 	}
 
@@ -59,4 +62,15 @@ class TransactionController {
 	public ResponseEntity<TransactionDto> findById(@PathVariable("transactionId") UUID transactionId) {
 		return ResponseEntity.ok(transactionFinder.findById(transactionId));
 	}
+	
+	private static Function<TransactionRequest, TransactionDto> createMapper() {
+		return tr -> {
+			final TransactionDto transactionDto = new TransactionDto();
+			transactionDto.setAccountId(tr.getAccountId());
+			transactionDto.setAmmount(tr.getAmmount());
+			transactionDto.setOperationType(tr.getOperationType());
+			return transactionDto;
+		};
+	}
+
 }

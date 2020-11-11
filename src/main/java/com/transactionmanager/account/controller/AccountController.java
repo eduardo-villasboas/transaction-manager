@@ -65,8 +65,8 @@ class AccountController {
 				@ApiResponse(code = 500, message = "Internal Server Error", response = ResponseError.class) })
 	// @formatter:on
 	@ResponseStatus(HttpStatus.CREATED)
-	public ResponseEntity<String> createAccount(@RequestBody @Valid final AccountDto accountDto) {
-		final UUID accountId = accountCreator.createNewAccount(accountDto);
+	public ResponseEntity<String> createAccount(@RequestBody @Valid final AccountRequest accountRequest) {
+		final UUID accountId = accountCreator.createNewAccount(new AccountDto(accountRequest.getDocumentNumber()));
 		return ResponseEntity.status(HttpStatus.CREATED).body(String.format("/accounts/%s", accountId));
 	}
 

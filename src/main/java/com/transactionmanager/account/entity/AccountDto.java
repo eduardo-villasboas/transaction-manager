@@ -3,8 +3,6 @@ package com.transactionmanager.account.entity;
 import java.util.Objects;
 import java.util.UUID;
 
-import javax.validation.constraints.NotNull;
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -20,7 +18,6 @@ public final class AccountDto {
 	@ApiModelProperty(required = false)
 	private UUID accountId;
 
-	@NotNull(message = "Error. document_number cannot be null")
 	@ApiModelProperty(example = "2809021124")
 	private Long documentNumber;
 
@@ -29,6 +26,14 @@ public final class AccountDto {
 		return "AccountDto [accountId=" + accountId + ", documentNumber=" + documentNumber + "]";
 	}
 
+	public AccountDto() {
+		// TODO Auto-generated constructor stub
+	}
+	
+	public AccountDto(Long documentNumber) {
+		this.documentNumber = documentNumber;
+	}
+	
 	@Override
 	public int hashCode() {
 		return Objects.hash(accountId, documentNumber);
