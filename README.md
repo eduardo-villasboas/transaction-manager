@@ -3,15 +3,17 @@
 
 ---
 
-##### Tecnologias, bibliotecas e técnicas.
+##### Tecnologias, bibliotecas.
 - Java 11
 - Gradle
-- Springboot
-- Jpa
+- Springboot 2.3.5
+- Jpa 
 - Junit5
 - Mockito
 - docker
 - liquibase(a base de dados é criada automaticamente)
+- Java bean validation
+- Swagger
 
 ##### Para rodar testes pela linha de commando utilize o commando no linux.
 ```batch
@@ -28,5 +30,5 @@ gradlew.bat clean build test
 ```bash
 docker-compose up -d
 ```
-##### Obs: o banco esta sendo mapeado para a porta 5431. Mas já está configurada no arquivo de properties
+##### Obs: O banco esta sendo mapeado para a porta 5431. Mas já está configurada no arquivo de properties
 
