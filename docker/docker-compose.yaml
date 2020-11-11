@@ -1,0 +1,14 @@
+
+version: '3.1'
+
+services:
+
+  db:
+    image: postgres:13-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_PASSWORD: transacton-manager-password
+      POSTGRES_USER: transaction-manager-user
+      POSTGRES_DB: transaction-manager-db
+    ports:
+      - 5431:5432
