@@ -12,11 +12,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.transactionmanager.account.entity.AccountDto;
+import com.transactionmanager.account.error.handler.ResponseError;
 import com.transactionmanager.account.usecase.AccountCreator;
 import com.transactionmanager.account.usecase.AccountFinder;
+
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 @RestController
 @RequestMapping("/accounts")
@@ -31,16 +38,36 @@ class AccountController {
 		this.accountCreator = accountCreator;
 	}
 
+	
 	@GetMapping("/{accountId}")
-	public ResponseEntity<AccountDto> findById(@PathVariable("accountId") UUID accountId) {
+	// @formatter:off
+	@ApiOperation(	value = "Retorna uma conta associada ao id informado", 
+	  				notes = "Este endpoint é utilizado para buscar uma conta única associada a um id único")
+		@ApiResponses(value = { 
+				@ApiResponse(code = 200, message = "OK.", response = AccountDto.class),
+				@ApiResponse(code = 400, message = "BAD_REQUEST.", response = ResponseError.class),
+				@ApiResponse(code = 404, message = "NOT_FOUND.", response = ResponseError.class),
+				@ApiResponse(code = 500, message = "Internal Server Error.", response = ResponseError.class) })
+	// @formatter:on
+	public ResponseEntity<AccountDto> findById(
+			@PathVariable("accountId") @ApiParam(value = "id da conta") UUID accountId) {
 		return ResponseEntity.ok(accountFinder.findById(accountId));
 	}
 
 	@PostMapping
+	// @formatter:off
+	@ApiOperation(	value = "Cria uma nova conta", 
+	  				notes = "Este endpoint é utilizado para criar uma nova conta utilizando os parametros infomados.")
+		@ApiResponses(value = { 
+				@ApiResponse(code = 201, message = "CREATED.", response = String.class),
+				@ApiResponse(code = 400, message = "BAD_REQUEST.", response = ResponseError.class),
+				@ApiResponse(code = 404, message = "NOT_FOUND.", response = ResponseError.class),
+				@ApiResponse(code = 500, message = "Internal Server Error", response = ResponseError.class) })
+	// @formatter:on
+	@ResponseStatus(HttpStatus.CREATED)
 	public ResponseEntity<String> createAccount(@RequestBody @Valid final AccountDto accountDto) {
 		final UUID accountId = accountCreator.createNewAccount(accountDto);
-		return ResponseEntity.status(HttpStatus.CREATED)
-				.body(String.format("/accounts/%s", accountId));
+		return ResponseEntity.status(HttpStatus.CREATED).body(String.format("/accounts/%s", accountId));
 	}
 
 }

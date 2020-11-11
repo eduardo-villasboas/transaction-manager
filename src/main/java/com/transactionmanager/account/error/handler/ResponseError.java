@@ -8,7 +8,7 @@ import java.util.List;
  * @author eduardo
  *
  */
-class ResponseError {
+public class ResponseError {
 
 	private final String errorMessage;
 	private final List<String> errorDetails;

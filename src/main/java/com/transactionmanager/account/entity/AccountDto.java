@@ -5,17 +5,23 @@ import java.util.UUID;
 
 import javax.validation.constraints.NotNull;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 /**
  * Classe que representa uma conta
  * 
  * @author eduardo
  *
  */
+@ApiModel
 public final class AccountDto {
 
+	@ApiModelProperty(required = false)
 	private UUID accountId;
 
 	@NotNull(message = "Error. document_number cannot be null")
+	@ApiModelProperty(example = "2809021124")
 	private Long documentNumber;
 
 	@Override

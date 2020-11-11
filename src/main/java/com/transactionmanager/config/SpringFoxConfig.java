@@ -20,7 +20,7 @@ public class SpringFoxConfig {
 
 	@Bean
 	public Docket api() {
-		final Docket docket = new Docket(DocumentationType.SWAGGER_2);
+		final Docket docket = new Docket(DocumentationType.SWAGGER_2).useDefaultResponseMessages(false);
 		final ApiSelectorBuilder apiSelectorBuidler = docket.select();
 		final ApiSelectorBuilder apis = apiSelectorBuidler
 				.apis(RequestHandlerSelectors.basePackage("com.transactionmanager"));
