@@ -52,7 +52,7 @@ class AccountControllerTest extends AbstractIntegrationTest {
 		newAccountRequest.put("document_number", DOCUMENT_NUMBER);
 		
 		final String findByIdUrl = mockMvcFacade.post(postUrl, newAccountRequest, status().isCreated(),
-				jsonPath("$", startsWith("/accounts/")));
+				jsonPath("$.resource", startsWith("/accounts/")));
 		
 		findAndCheckNewAccount(mockMvcFacade, findByIdUrl);
 	}

@@ -57,7 +57,7 @@ class TransactionControllerTest extends AbstractIntegrationTest {
 		newAccountRequest.put("ammount", "11323.45");
 
 		final String findByIdUrl = mockMvcFacade.post(postUrl, newAccountRequest, status().isCreated(),
-				jsonPath("$", startsWith("/transactions/")));
+				jsonPath("$.resource", startsWith("/transactions/")));
 
 		findAndCheckNewTransaction(mockMvcFacade, findByIdUrl, 
 				jsonPath("$.account_id", is(ACCOUNT_ID.toString())),
@@ -77,7 +77,7 @@ class TransactionControllerTest extends AbstractIntegrationTest {
 		newAccountRequest.put("ammount", "2500.00");
 
 		final String findByIdUrl = mockMvcFacade.post(postUrl, newAccountRequest, status().isCreated(),
-				jsonPath("$", startsWith("/transactions/")));
+				jsonPath("$.resource", startsWith("/transactions/")));
 
 		findAndCheckNewTransaction(mockMvcFacade, findByIdUrl,
 				jsonPath("$.account_id", is(ACCOUNT_ID.toString())),
@@ -98,7 +98,7 @@ class TransactionControllerTest extends AbstractIntegrationTest {
 		newAccountRequest.put("ammount", "11000.00");
 
 		final String findByIdUrl = mockMvcFacade.post(postUrl, newAccountRequest, status().isCreated(),
-				jsonPath("$", startsWith("/transactions/")));
+				jsonPath("$.resource", startsWith("/transactions/")));
 
 		findAndCheckNewTransaction(mockMvcFacade, findByIdUrl, 
 				jsonPath("$.account_id", is(ACCOUNT_ID.toString())),
@@ -119,7 +119,7 @@ class TransactionControllerTest extends AbstractIntegrationTest {
 		newAccountRequest.put("ammount", "15467.31");
 
 		final String findByIdUrl = mockMvcFacade.post(postUrl, newAccountRequest, status().isCreated(),
-				jsonPath("$", startsWith("/transactions/")));
+				jsonPath("$.resource", startsWith("/transactions/")));
 
 		findAndCheckNewTransaction(mockMvcFacade, findByIdUrl, 
 				jsonPath("$.account_id", is(ACCOUNT_ID.toString())),

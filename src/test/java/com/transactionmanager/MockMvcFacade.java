@@ -109,24 +109,14 @@ public final class MockMvcFacade {
 	}
 
 	/**
-	 * 
+	 * Extrai o resultado do MvcResult em forma de uma string que representa a url de busca.
 	 * @param mockMvcResult resultado da request de post
 	 * @return a resposta como uma string
 	 * @throws UnsupportedEncodingException
 	 */
 	private String extractResponse(final MvcResult mockMvcResult) throws UnsupportedEncodingException {
-		return normalizeResourceUrl(mockMvcResult.getResponse().getContentAsString());
-	}
-
-	/**
-	 * 
-	 * @param resource string com o recurso não normalizado
-	 * @return Uma string normalizada.
-	 *         ""/url-id-resouce/d9c42614-0959-49a1-b71c-2e325282af20"" ->
-	 *         "/url-id-resouce/d9c42614-0959-49a1-b71c-2e325282af20"
-	 */
-	private String normalizeResourceUrl(final String resource) throws UnsupportedEncodingException {
-		return resource.substring(1, resource.length() - 1);
+		final JSONObject jsonObject = new JSONObject(mockMvcResult.getResponse().getContentAsString());
+		return jsonObject.getString("resource");
 	}
 
 }
